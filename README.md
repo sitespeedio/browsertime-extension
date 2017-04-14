@@ -55,4 +55,4 @@ Follow instruction on [https://support.google.com/chrome_webstore/answer/2664769
 
 For Chrome, build the extension by click on the button "Pack extension" and the copy the file to <i>browsertime/vendor/browsertime-extension.crx</i>.
 
-For Firefox use web-ext sign ... but the current version doesn't support webextension based on a manifest.json. 
+For Firefox use web-ext sign ... but the current version of Selenium doesn't support webextension based on a manifest.json, so we need to fix that before we can use the extension in Firefox.
