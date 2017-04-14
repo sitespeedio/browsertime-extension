@@ -2,6 +2,7 @@
 Extension for Firefox and Chrome that is used in [Browsertime](https://github.com/sitespeedio/browsertime) to:
 * Set request headers
 * Block requests
+* Clear the cache
 
 and more things in the future.
 
