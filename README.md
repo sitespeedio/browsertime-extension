@@ -26,6 +26,11 @@ Block all requests on w.cdn-expressen.se and www.cdn-expressen.se
 
 Go to http://http://127.0.0.1/?bl=w.cdn-expressen.se&bl=www.cdn-expressen.se
 
+## Clear the cache
+Clear all browser caches for the last 7 days.
+
+Go to http://http://127.0.0.1/?clear=y
+
 # Test the plugin in Firefox
 
 Install web-ext:
