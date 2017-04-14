@@ -1,0 +1,25 @@
+{
+  "name": "Browsertime",
+  "version": "0.1",
+  "description": "Extension to run inside Browsertime to block requests and add request headers.",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "all_frames": false,
+      "js": ["script.js"],
+      "matches": ["http://127.0.0.1/*"],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": [
+  "webRequest",
+  "webRequestBlocking",
+  "browsingData",
+  "http://*/*",
+  "https://*/*"
+  ],
+  "icons": { "128": "browsertime-128.png" },
+  "manifest_version": 2
+}
