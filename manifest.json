@@ -1,6 +1,6 @@
 {
   "name": "Browsertime",
-  "version": "0.3.0",
+  "version": "0.3.3",
   "description": "Extension to run inside Browsertime to block requests and add request headers.",
   "background": {
     "scripts": ["background.js"]
@@ -21,5 +21,11 @@
   "https://*/*"
   ],
   "icons": { "128": "browsertime-128.png" },
-  "manifest_version": 2
+  "manifest_version": 2,
+  "applications": {
+   "gecko": {
+     "id": "browsertime-extension@sitespeed.io",
+     "strict_min_version": "52.0"
+   }
+ }
 }
