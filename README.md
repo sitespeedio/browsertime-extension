@@ -16,6 +16,7 @@ Go to http://127.0.0.1/?rh=secret:87sghwgaf&&ga9ja:&rh=user:hoppla
 Set for a specific domain:
 Go to http://127.0.0.1/?rh=secret:87sghwgaf&&ga9ja:&rh=user:hoppla&domain=www.sitespeed.io
 
+Then you can easy test that it works on: https://httpbin.org/headers
 
 ## Block requests
 Block all requests on w.cdn-expressen.se
