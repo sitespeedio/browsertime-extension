@@ -15,7 +15,7 @@
   }
 
   function getActions(params) {
-    const blocked = (params.blocked || [])
+    const blocked = (params.bl || [])
       .map(domain => `*://${domain}/*`);
 
     const requestHeaders = (params.rh || [])
