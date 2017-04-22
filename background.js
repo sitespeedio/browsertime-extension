@@ -21,7 +21,7 @@
     const requestHeaders = (params.rh || [])
       .map(headerString => headerString.split(/:(.+)/))
       .map(parts => {
-        return {key: parts[0], value: parts[1]};
+        return {name: parts[0], value: parts[1]};
       });
 
     const domain = params.domain;
