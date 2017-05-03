@@ -10,6 +10,47 @@
     chrome.privacy.services.translationServiceEnabled.set({ value: false }, function(){});
   }
 
+  // set Basic Auth credentials
+  function setupBasicAuth(username, password, url) {
+    const authCredentials = {
+      username,
+      password
+    };
+
+    const pendingRequests = [];
+
+    function completed(requestDetails) {
+      var index = pendingRequests.indexOf(requestDetails.requestId);
+      if (index > -1) {
+        pendingRequests.splice(index, 1);
+      }
+    }
+
+    function provideCredentialsSync(requestDetails) {
+      if (pendingRequests.indexOf(requestDetails.requestId) != -1) {
+        return { cancel:true };
+      }
+      pendingRequests.push(requestDetails.requestId);
+      return { authCredentials };
+    }
+
+    browser.webRequest.onAuthRequired.addListener(
+        provideCredentialsSync,
+        { urls: [url] },
+        ["blocking"]
+      );
+
+    browser.webRequest.onCompleted.addListener(
+      completed,
+      { urls: [url] }
+    );
+
+    browser.webRequest.onErrorOccurred.addListener(
+      completed,
+      { urls: [url] }
+    );
+  }
+
   function parseQueryString(queryString) {
     return queryString.split('&')
       .map(pair => pair.split('='))
@@ -36,7 +77,15 @@
 
     const clearCache = !!params.clear;
 
-    return {blocked, requestHeaders, domain, clearCache};
+    const basicAuth = params.ba ?
+    .map(basicAuthString => basicAuthString.split('@')
+    .map(parts => {
+      return {username: parts[0],
+      password: parts[1],
+      url: parts[2];
+    }) : undefined;
+
+    return {blocked, requestHeaders, domain, clearCache, basicAuth};
   }
 
   browser.runtime.onMessage.addListener((message) => {
@@ -64,6 +113,10 @@
       }, {
         urls: actions.blocked
       }, ['blocking']);
+    }
+
+    if (actions.basicAuth) {
+      setupBasicAuth(actions.basicAuth.username, actions.basicAuth.password, actions.basicAuth.url);
     }
 
     if (actions.clearCache) {
