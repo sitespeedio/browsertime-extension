@@ -23,9 +23,11 @@ before_install:
 - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile
   --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1600x1024x16
 - npm install --global web-ext
+- npm install --global crx
 script:
-# A lot to do here, but for now at least start Firefox with the plugin
-# Let add real tests here later
+# A lot to do here, but for now at least pack the plugin for Chrome and
+## start Firefox with the plugin. Let us add real tests here later
+- crx pack -o
 - web-ext run --browser-console
 env:
   global:
