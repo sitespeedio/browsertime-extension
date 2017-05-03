@@ -3,6 +3,7 @@ Extension for Firefox and Chrome that is used in [Browsertime](https://github.co
 * Set request headers
 * Block requests
 * Clear the cache
+* Set Basic Auth
 
 and more things in the future.
 
@@ -31,6 +32,17 @@ Go to http://http://127.0.0.1/?bl=w.cdn-expressen.se&bl=www.cdn-expressen.se
 Clear all browser caches for the last 7 days.
 
 Go to http://http://127.0.0.1/?clear=y
+
+## Set Basic Auth
+If your site is behind Basic Auth you can automatically send the Basic auth header.
+
+<<pre>
+Username: peter
+Password: secret
+url: https://www.sitespeed.io/
+</pre>
+
+Go to http://http://127.0.0.1/?ba=peter@secret@https://www.sitespeed.io/
 
 # Test the plugin in Firefox
 
