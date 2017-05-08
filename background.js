@@ -77,13 +77,15 @@
 
     const clearCache = !!params.clear;
 
-    const basicAuth = params.ba ?
-    .map(basicAuthString => basicAuthString.split('@')
-    .map(parts => {
-      return {username: parts[0],
-      password: parts[1],
-      url: parts[2];
-    }) : undefined;
+    let basicAuth = undefined;
+    if (params.ba) {
+      const parts =  (new String(params.ba)).split('@');
+      basicAuth = {
+        username: parts[0],
+        password: parts[1],
+        url: parts[2]
+      }
+    }
 
     return {blocked, requestHeaders, domain, clearCache, basicAuth};
   }
