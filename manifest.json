@@ -1,6 +1,6 @@
 {
   "name": "Browsertime",
-  "version": "0.5.0",
+  "version": "0.4.0",
   "description": "Extension to run inside Browsertime to block requests and add request headers.",
   "background": {
     "scripts": ["background.js"]
@@ -14,19 +14,20 @@
     }
   ],
   "permissions": [
-  "webRequest",
-  "webRequestBlocking",
-  "browsingData",
-  "privacy",
-  "http://*/*",
-  "https://*/*"
+    "webRequest",
+    "webRequestBlocking",
+    "browsingData",
+    "privacy",
+    "cookies",
+    "http://*/*",
+    "https://*/*"
   ],
   "icons": { "128": "browsertime-128.png" },
   "manifest_version": 2,
   "applications": {
-   "gecko": {
-     "id": "browsertime-extension@sitespeed.io",
-     "strict_min_version": "52.0"
-   }
- }
+    "gecko": {
+      "id": "browsertime-extension@sitespeed.io",
+      "strict_min_version": "52.0"
+    }
+  }
 }

@@ -23,6 +23,15 @@
     );
   }
 
+  function setCookie(name, value, url) {
+    console.log("setting cookie: " + name + " value " + value + " url:" + url);
+    browser.cookies.set({
+      url,
+      name,
+      value
+    });
+  }
+
   // set Basic Auth credentials
   function setupBasicAuth(username, password, url) {
     const authCredentials = {
@@ -97,7 +106,13 @@
       };
     }
 
-    return { blocked, requestHeaders, domain, clearCache, basicAuth };
+    const cookies = (params.cookie || [])
+      .map(cookieString => cookieString.split(/\@(.+)\@(.+)/))
+      .map(parts => {
+        return { name: parts[0], value: parts[1], url: parts[2] };
+      });
+
+    return { blocked, requestHeaders, domain, clearCache, basicAuth, cookies };
   }
 
   browser.runtime.onMessage.addListener(message => {
@@ -141,6 +156,12 @@
         actions.basicAuth.password,
         actions.basicAuth.url
       );
+    }
+
+    if (actions.cookies) {
+      for (const cookie of actions.cookies) {
+        setCookie(cookie.name, cookie.value, cookie.url);
+      }
     }
 
     if (actions.clearCache) {
