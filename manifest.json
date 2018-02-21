@@ -19,7 +19,8 @@
   "browsingData",
   "privacy",
   "http://*/*",
-  "https://*/*"
+  "https://*/*",
+  "wss://*/*"
   ],
   "icons": { "128": "browsertime-128.png" },
   "manifest_version": 2,
