@@ -1,6 +1,6 @@
 {
   "name": "Browsertime",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Extension to run inside Browsertime to block requests and add request headers.",
   "background": {
     "scripts": ["background.js"]
