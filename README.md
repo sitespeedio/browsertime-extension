@@ -36,13 +36,24 @@ Go to http://http://127.0.0.1/?clear=y
 ## Set Basic Auth
 If your site is behind Basic Auth you can automatically send the Basic auth header.
 
-<<pre>
+<pre>
 Username: peter
 Password: secret
 url: https://www.sitespeed.io/
 </pre>
 
 Go to http://http://127.0.0.1/?ba=peter@secret@https://www.sitespeed.io/
+
+## Set Cookie(s)
+If you want to set a cookie.
+
+<pre>
+name: cookieName
+value: cookieValue
+url: https://www.sitespeed.io/
+</pre>
+
+Go to http://http://127.0.0.1/?cookie=cookieName@cookieValue@https://www.sitespeed.io/
 
 # Test the plugin in Firefox
 
@@ -73,5 +84,3 @@ Follow instruction on [https://support.google.com/chrome_webstore/answer/2664769
 # Test in Browsertime
 
 For Chrome, build the extension by click on the button "Pack extension" and the copy the file to <i>browsertime/vendor/browsertime-extension.crx</i>.
-
-For Firefox use web-ext sign ... but the current version of Selenium doesn't support webextension based on a manifest.json, so we need to fix that before we can use the extension in Firefox.
