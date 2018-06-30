@@ -22,11 +22,11 @@ Then you can easy test that it works on: https://httpbin.org/headers
 ## Block requests
 Block all requests on w.cdn-expressen.se
 
-Go to http://http://127.0.0.1/?bl=w.cdn-expressen.se
+Go to http://127.0.0.1/?bl=w.cdn-expressen.se
 
 Block all requests on w.cdn-expressen.se and www.cdn-expressen.se
 
-Go to http://http://127.0.0.1/?bl=w.cdn-expressen.se&bl=www.cdn-expressen.se
+Go to http://127.0.0.1/?bl=w.cdn-expressen.se&bl=www.cdn-expressen.se
 
 ## Clear the cache
 Clear all browser caches for the last 7 days.
@@ -42,7 +42,7 @@ Password: secret
 url: https://www.sitespeed.io/
 </pre>
 
-Go to http://http://127.0.0.1/?ba=peter@secret@https://www.sitespeed.io/
+Go to http://127.0.0.1/?ba=peter@secret@https://www.sitespeed.io/
 
 ## Set Cookie(s)
 If you want to set a cookie.
@@ -53,7 +53,7 @@ value: cookieValue
 url: https://www.sitespeed.io/
 </pre>
 
-Go to http://http://127.0.0.1/?cookie=cookieName@cookieValue@https://www.sitespeed.io/
+Go to http://127.0.0.1/?cookie=cookieName@cookieValue@https://www.sitespeed.io/
 
 # Test the plugin in Firefox
 
