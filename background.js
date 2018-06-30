@@ -24,7 +24,6 @@
   }
 
   function setCookie(name, value, url) {
-    console.log("setting cookie: " + name + " value " + value + " url:" + url);
     browser.cookies.set({
       url,
       name,
