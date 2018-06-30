@@ -5,5 +5,12 @@ window.browser = (function () {
     window.browser ||
     window.chrome;
 })();
-  browser.runtime.sendMessage({queryString: window.location.search.slice(1)}, function() {});
+  if (window.chrome) {
+    browser.runtime.sendMessage({queryString: window.location.search.slice(1)}, function() {});
+  } 
+  else {
+    // Something changed in FF 55
+    browser.runtime.sendMessage({queryString: window.location.search.slice(1)});
+  }
+ 
 })());
