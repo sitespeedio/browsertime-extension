@@ -9,18 +9,24 @@
     window.chrome.privacy.services
   ) {
     // Inspired from WebPageTest https://github.com/WPO-Foundation/webpagetest/commit/a84e713ac1d9b7f0d78519dfbdc078e73b943b06
-    chrome.privacy.services.passwordSavingEnabled.set(
-      { value: false },
-      function() {}
-    );
-    chrome.privacy.services.autofillEnabled.set(
-      { value: false },
-      function() {}
-    );
-    chrome.privacy.services.translationServiceEnabled.set(
-      { value: false },
-      function() {}
-    );
+    if (chrome.privacy.services.passwordSavingEnabled) {
+      chrome.privacy.services.passwordSavingEnabled.set(
+        { value: false },
+        function() {}
+      );
+    }
+    if (chrome.privacy.services.autofillEnabled) {
+      chrome.privacy.services.autofillEnabled.set(
+        { value: false },
+        function() {}
+      );
+    }
+    if (chrome.privacy.services.translationServiceEnabled) {
+      chrome.privacy.services.translationServiceEnabled.set(
+        { value: false },
+        function() {}
+      );
+    }
   }
 
   function setCookie(name, value, url) {
