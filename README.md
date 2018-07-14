@@ -3,6 +3,7 @@ Extension for Firefox and Chrome that is used in [Browsertime](https://github.co
 * Set request headers
 * Block requests
 * Clear the cache
+* Add cookie(s)
 * Set Basic Auth
 
 and more things in the future.
