@@ -1,13 +1,12 @@
 (function() {
+
+  const isChrome = !window.browser;
+
   // make it work in both FF and Chrome
-  window.browser = window.msBrowser || window.browser || window.chrome;
+  window.browser = window.browser || window.chrome;
 
   // Chrome specific code
-  if (
-    window.chrome &&
-    window.chrome.privacy &&
-    window.chrome.privacy.services
-  ) {
+  if (isChrome) {
     // Inspired from WebPageTest https://github.com/WPO-Foundation/webpagetest/commit/a84e713ac1d9b7f0d78519dfbdc078e73b943b06
     if (chrome.privacy.services.passwordSavingEnabled) {
       chrome.privacy.services.passwordSavingEnabled.set(
@@ -29,8 +28,10 @@
     }
   }
 
-  function setCookie(name, value, url) {
-    browser.cookies.set({
+  // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/cookies/set
+  // https://developer.chrome.com/extensions/cookies#method-set
+  function setCookie(name, value, url) {    
+    return browser.cookies.set({
       url,
       name,
       value
@@ -38,7 +39,9 @@
   }
 
   // set Basic Auth credentials
-  function setupBasicAuth(username, password, url) {
+  // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/onAuthRequired
+  // https://developer.chrome.com/extensions/webRequest#onAuthRequired
+  function setupBasicAuth(username, password, url) {  
     const authCredentials = {
       username,
       password
@@ -68,7 +71,6 @@
     );
 
     browser.webRequest.onCompleted.addListener(completed, { urls: [url] });
-
     browser.webRequest.onErrorOccurred.addListener(completed, { urls: [url] });
   }
 
@@ -121,12 +123,15 @@
   }
 
   browser.runtime.onMessage.addListener(message => {
+    const allPromises = [];
     const params = parseQueryString(message.queryString);
     const actions = getActions(params);
 
     if (actions.requestHeaders.length > 0) {
       const domain = actions.domain ? actions.domain : "<all_urls>";
 
+      // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/onBeforeSendHeaders
+      
       browser.webRequest.onBeforeSendHeaders.addListener(
         details => {
           details.requestHeaders.push(...actions.requestHeaders);
@@ -165,29 +170,58 @@
 
     if (actions.cookies) {
       for (const cookie of actions.cookies) {
-        setCookie(cookie.name, cookie.value, cookie.url);
+        if (isChrome) {
+          setCookie(cookie.name, cookie.value, cookie.url);
+        } else {
+          allPromises.push(setCookie(cookie.name, cookie.value, cookie.url));
+        }
       }
     }
 
     if (actions.clearCache) {
       const millisecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
       const oneWeekAgo = Date.now() - millisecondsPerWeek;
-      browser.browsingData.remove(
-        {
-          since: oneWeekAgo
-        },
-        {
-          appcache: true,
-          cache: true,
-          cookies: true,
-          fileSystems: true,
-          indexedDB: true,
-          localStorage: true,
-          serverBoundCertificates: true,
-          serviceWorkers: true
-        },
-        function() {}
-      );
+      // Chrome and FF handles things differently
+      // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/browsingData/remove
+      // https://developer.chrome.com/extensions/browsingData#method-remove
+      if (isChrome) {
+        browser.browsingData.remove(
+          {
+            since: oneWeekAgo
+          },
+          {
+            cache: true,
+            cookies: true,
+            fileSystems: true,
+            indexedDB: true,
+            localStorage: true,
+            serverBoundCertificates: true,
+            serviceWorkers: true
+          },
+          function() {}
+        );
+      } else {
+        allPromises.push(browser.browsingData.remove(
+          {
+            since: oneWeekAgo
+          },
+          {
+            cache: true,
+            cookies: true,
+            indexedDB: true,
+            serviceWorkers: true
+          }
+        ));
+        // Firefox doesn't support localstorage together with since
+        allPromises.push(browser.browsingData.remove(
+          {},
+          {
+            localStorage: true
+          }
+        ));
+
+      }
     }
+    return Promise.all(allPromises);
   });
 })();
