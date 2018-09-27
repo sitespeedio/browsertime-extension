@@ -100,6 +100,7 @@
       });
 
     const domain = params.domain;
+    const js = params.js;
 
     const clearCache = !!params.clear;
 
@@ -119,7 +120,7 @@
         return { name: parts[0], value: parts[1], url: parts[2] };
       });
 
-    return { blocked, requestHeaders, domain, clearCache, basicAuth, cookies };
+    return { blocked, requestHeaders, domain, clearCache, basicAuth, cookies, js };
   }
 
   browser.runtime.onMessage.addListener(message => {
@@ -158,6 +159,30 @@
         },
         ["blocking"]
       );
+    }
+
+    if (actions.js) {
+      if (isChrome) {
+        browser.webNavigation.onCommitted.addListener(details => {
+          for (let js of actions.js) {
+            eval(js);
+          }
+      }, {
+        url: [{schemes: ["http", "https"]}]}
+      );
+    } else {
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=1267027
+        const code = [];
+        for (let js of actions.js) {
+          code.push({code: js});
+        }
+        allPromises.push(browser.contentScripts.register({
+          allFrames: false,
+          matches: ['https://*/*', 'http://*/*'],
+          js: code,
+          runAt: "document_start"
+        }));
+      }
     }
 
     if (actions.basicAuth) {
