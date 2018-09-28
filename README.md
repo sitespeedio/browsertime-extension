@@ -40,10 +40,9 @@ If your site is behind Basic Auth you can automatically send the Basic auth head
 <pre>
 Username: peter
 Password: secret
-url: https://www.sitespeed.io/
 </pre>
 
-Go to http://127.0.0.1/?ba=peter@secret@https://www.sitespeed.io/
+Go to http://127.0.0.1/?ba=peter@secret&domain=www.sitespeed.io
 
 ## Set Cookie(s)
 If you want to set a cookie.
