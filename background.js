@@ -72,7 +72,8 @@
       const parts = new String(params.ba).split("@");
       basicAuth = {
         username: parts[0],
-        password: parts[1]
+        password: parts[1],
+        url: parts[2]
       };
     }
 
@@ -96,7 +97,7 @@
     }
 
     if (actions.requestHeaders.length > 0) {
-      const domain = actions.domain ? actions.domain : "<all_urls>";
+      const domain = actions.basicAuth && actions.basicAuth.url ? actions.basicAuth.url : "<all_urls>";
 
       // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/onBeforeSendHeaders
       
