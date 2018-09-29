@@ -38,42 +38,6 @@
     });
   }
 
-  // set Basic Auth credentials
-  // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/onAuthRequired
-  // https://developer.chrome.com/extensions/webRequest#onAuthRequired
-  function setupBasicAuth(username, password, url) {  
-    const authCredentials = {
-      username,
-      password
-    };
-
-    const pendingRequests = [];
-
-    function completed(requestDetails) {
-      var index = pendingRequests.indexOf(requestDetails.requestId);
-      if (index > -1) {
-        pendingRequests.splice(index, 1);
-      }
-    }
-
-    function provideCredentialsSync(requestDetails) {
-      if (pendingRequests.indexOf(requestDetails.requestId) != -1) {
-        return { cancel: true };
-      }
-      pendingRequests.push(requestDetails.requestId);
-      return { authCredentials };
-    }
-
-    browser.webRequest.onAuthRequired.addListener(
-      provideCredentialsSync,
-      { urls: [url] },
-      ["blocking"]
-    );
-
-    browser.webRequest.onCompleted.addListener(completed, { urls: [url] });
-    browser.webRequest.onErrorOccurred.addListener(completed, { urls: [url] });
-  }
-
   function parseQueryString(queryString) {
     return queryString
       .split("&")
@@ -128,8 +92,13 @@
     const params = parseQueryString(message.queryString);
     const actions = getActions(params);
 
+    if (actions.basicAuth) {
+     const basic = 'Basic ' + btoa(actions.basicAuth.username + ':' +  actions.basicAuth.password);
+     actions.requestHeaders.push({ name: 'Authorization', value: basic });
+    }
+
     if (actions.requestHeaders.length > 0) {
-      const domain = actions.domain ? actions.domain : "<all_urls>";
+      const domain = actions.basicAuth && actions.basicAuth.url ? actions.basicAuth.url : "<all_urls>";
 
       // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/onBeforeSendHeaders
       
@@ -183,14 +152,6 @@
           runAt: "document_start"
         }));
       }
-    }
-
-    if (actions.basicAuth) {
-      setupBasicAuth(
-        actions.basicAuth.username,
-        actions.basicAuth.password,
-        actions.basicAuth.url
-      );
     }
 
     if (actions.cookies) {
