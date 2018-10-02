@@ -28,7 +28,7 @@ script:
 - npm run travis
 - web-ext lint
 - web-ext build
-- crx pack -o browsertime.crx
+# - crx pack -o browsertime.crx
 env:
   global:
   - CXX=g++-4.8
