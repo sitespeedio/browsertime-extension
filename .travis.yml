@@ -26,7 +26,8 @@ script:
 # A lot to do here, but for now at least pack the plugin for Chrome and
 ## start Firefox with the plugin. Let us add real tests here later
 - crx pack -o browsertime.crx
-- web-ext run --browser-console
+- npm run travis
+# - web-ext run --browser-console
 env:
   global:
   - CXX=g++-4.8
