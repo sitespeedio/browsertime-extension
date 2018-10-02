@@ -98,7 +98,7 @@
     }
 
     if (actions.requestHeaders.length > 0) {
-      const domain = actions.basicAuth && actions.basicAuth.url ? actions.basicAuth.url : "<all_urls>";
+      const domain = "<all_urls>";
 
       // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/onBeforeSendHeaders
 
