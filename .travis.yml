@@ -27,7 +27,8 @@ script:
 ## start Firefox with the plugin. Let us add real tests here later
 - crx pack -o browsertime.crx
 - npm run travis
-# - web-ext run --browser-console
+- web-ext lint
+- web-ext build
 env:
   global:
   - CXX=g++-4.8
