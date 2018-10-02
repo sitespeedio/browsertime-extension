@@ -30,7 +30,7 @@
 
   // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/cookies/set
   // https://developer.chrome.com/extensions/cookies#method-set
-  function setCookie(name, value, url) {    
+  function setCookie(name, value, url) {
     return browser.cookies.set({
       url,
       name,
@@ -101,7 +101,7 @@
       const domain = actions.basicAuth && actions.basicAuth.url ? actions.basicAuth.url : "<all_urls>";
 
       // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/onBeforeSendHeaders
-      
+
       browser.webRequest.onBeforeSendHeaders.addListener(
         details => {
           details.requestHeaders.push(...actions.requestHeaders);
@@ -132,14 +132,17 @@
 
     if (actions.js) {
       if (isChrome) {
+        console.log('Chrome is not supported at the moment to inject JS');
+        /*
         browser.webNavigation.onCommitted.addListener(details => {
           for (let js of actions.js) {
             eval(js);
           }
       }, {
         url: [{schemes: ["http", "https"]}]}
-      );
+      );*/
     } else {
+        // https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/contentScripts
         // https://bugzilla.mozilla.org/show_bug.cgi?id=1267027
         const code = [];
         for (let js of actions.js) {
