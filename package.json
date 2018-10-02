@@ -1,0 +1,46 @@
+{
+  "name": "browsertime-extension",
+  "version": "0.14.0",
+  "description": "Extension to add extra functionality to Browsertime",
+  "keywords": [],
+  "homepage": "https://www.sitespeed.io",
+  "license": "MIT",
+  "author": {
+    "name": "Peter Hedenskog",
+    "url": "https://www.peterhedenskog.com"
+  },
+  "contributors": [
+    {
+      "name": "Tobias Lidskog"
+    },
+    {
+      "name": "Jonathan Lee"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sitespeedio/browsertime-extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sitespeedio/browsertime-extension/issues"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "eslint-check": "eslint --print-config .eslintrc.json | eslint-config-prettier-check",
+    "eclint": "eclint check lib/**/* bin/**/* tools/**/*",
+    "eclint:fix": "eclint fix * lib/**/* bin/**/* tools/**/* !*.iml",
+    "travis": "npm run eslint-check && npm run lint"
+  },
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "devDependencies": {
+    "eclint": "^2.8.0",
+    "eslint": "^5.6.1",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "prettier": "^1.14.3"
+  },
+  "dependencies": {}
+}
