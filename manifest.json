@@ -16,6 +16,7 @@
   "permissions": [
     "webRequest",
     "webRequestBlocking",
+    "webNavigation",
     "browsingData",
     "privacy",
     "cookies",
