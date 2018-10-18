@@ -168,7 +168,7 @@
       }
     }
 
-    function setCookies() {
+    async function setCookies() {
       return actions.cookies.map(cookie =>
         setCookie(cookie.name, cookie.value, cookie.url)
       );
@@ -219,6 +219,11 @@
             }
           )
         );
+      }
+    } else {
+      // If we don't clear the cache, we still wanna set cookies
+      if (isChrome) {
+        setCookies();
       }
     }
 
