@@ -168,14 +168,10 @@
       }
     }
 
-    if (actions.cookies) {
-      for (const cookie of actions.cookies) {
-        if (isChrome) {
-          setCookie(cookie.name, cookie.value, cookie.url);
-        } else {
-          allPromises.push(setCookie(cookie.name, cookie.value, cookie.url));
-        }
-      }
+    function setCookies() {
+      return actions.cookies.map(cookie =>
+        setCookie(cookie.name, cookie.value, cookie.url)
+      );
     }
 
     if (actions.clearCache) {
@@ -198,7 +194,7 @@
             serverBoundCertificates: true,
             serviceWorkers: true
           },
-          function() {}
+          setCookies
         );
       } else {
         allPromises.push(
@@ -225,6 +221,9 @@
         );
       }
     }
-    return Promise.all(allPromises);
+
+    if (!isChrome) {
+      return Promise.all(allPromises).then(() => Promise.all(setCookies()));
+    }
   });
 })();
