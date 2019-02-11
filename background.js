@@ -36,6 +36,7 @@
       value
     });
   }
+  
 
   function parseQueryString(queryString) {
     return queryString
@@ -66,6 +67,7 @@
     const js = params.js;
 
     const clearCache = !!params.clear;
+    const clearCacheKeepCookies = !!params.clearCacheKeepCookies;
 
     let basicAuth = undefined;
     if (params.ba) {
@@ -88,6 +90,7 @@
       requestHeaders,
       domain,
       clearCache,
+      clearCacheKeepCookies,
       basicAuth,
       cookies,
       js
@@ -174,19 +177,41 @@
       );
     }
 
+    if(actions.clearCacheKeepCookies) {
+      if (isChrome) {
+        window.browser.browsingData.remove(
+          {},
+          {
+            cache: true,
+            cacheStorage: true,
+            cookies: false,
+            fileSystems: true,
+            localStorage: true
+          }
+        );
+      } else {
+        allPromises.push(
+          window.browser.browsingData.remove(
+            {},
+            {
+              cache: true,
+              cookies: false
+            }
+          )
+        );
+      } 
+    }
+
     if (actions.clearCache) {
-      const millisecondsPerWeek = 1000 * 60 * 60 * 24 * 7;
-      const oneWeekAgo = Date.now() - millisecondsPerWeek;
       // Chrome and FF handles things differently
       // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/browsingData/remove
       // https://developer.chrome.com/extensions/browsingData#method-remove
       if (isChrome) {
         window.browser.browsingData.remove(
-          {
-            since: oneWeekAgo
-          },
+          {},
           {
             cache: true,
+            cacheStorage: true,
             cookies: true,
             fileSystems: true,
             indexedDB: true,
@@ -200,7 +225,6 @@
         allPromises.push(
           window.browser.browsingData.remove(
             {
-              since: oneWeekAgo
             },
             {
               cache: true,
