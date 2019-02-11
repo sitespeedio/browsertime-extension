@@ -1,6 +1,6 @@
 {
   "name": "browsertime-extension",
-  "version": "0.14.0",
+  "version": "0.18.0",
   "description": "Extension to add extra functionality to Browsertime",
   "keywords": [],
   "homepage": "https://www.sitespeed.io",
