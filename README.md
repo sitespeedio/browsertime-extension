@@ -1,4 +1,7 @@
 # Browsertime extension
+
+In 2024 we removed the use of the extension in Browsertime since most functionality now is implemented in CDP and Bidi.
+
 Extension for Firefox and Chrome that is used in [Browsertime](https://github.com/sitespeedio/browsertime) to:
 * Set request headers
 * Block requests
